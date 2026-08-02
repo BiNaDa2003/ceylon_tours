@@ -1,0 +1,5 @@
+/assets/images/uploads/*
+!/assets/images/uploads/.gitkeep
+config/local_config.php
+.DS_Store
+*.log
