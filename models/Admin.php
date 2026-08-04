@@ -1,8 +1,5 @@
 <?php
-/**
- * Admin Model
- * Handles admin authentication and enhanced dashboard statistics.
- */
+
 class Admin {
     private $conn;
     private $table_name = "admins";
@@ -16,9 +13,7 @@ class Admin {
         $this->conn = $db;
     }
 
-    /**
-     * Login admin by email and password (supports hashed and plain text passwords).
-     */
+    
     public function login($email, $password) {
         $query = "SELECT id, username, email, password FROM " . $this->table_name . " WHERE email = ? LIMIT 0,1";
         $stmt = $this->conn->prepare($query);
@@ -38,9 +33,7 @@ class Admin {
         return false;
     }
 
-    /**
-     * Get enriched dashboard statistics for the admin dashboard.
-     */
+    
     public function getDashboardStats() {
         $stats = [];
 
@@ -85,7 +78,7 @@ class Admin {
             $stats['pending_custom'] = 0;
         }
 
-        // Monthly bookings for the last 6 months (for Chart.js)
+        // Monthly bookings for the last 6 months 
         $stmt = $this->conn->prepare(
             "SELECT DATE_FORMAT(created_at, '%b %Y') as month,
                     DATE_FORMAT(created_at, '%Y-%m') as month_key,
