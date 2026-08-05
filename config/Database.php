@@ -3,7 +3,7 @@ class Database {
     private $host = "localhost";
     private $db_name = "tour_booking";
     private $username = "root";
-    private $password = "root";
+    private $password = "";
     public $conn;
 
     // Get the database connection
