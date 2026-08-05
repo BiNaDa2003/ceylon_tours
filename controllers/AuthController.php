@@ -7,16 +7,18 @@ class AuthController {
     private $db;
 
     public function __construct() {
+        // Initialize database connection
         $database = new Database();
         $this->db = $database->getConnection();
+
+        // Start session if needed
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
         }
     }
 
-    
     public function showLogin() {
-        
+        // Redirect if already logged in
         if (isset($_SESSION['admin_id'])) {
             header("Location: index.php?route=admin_dashboard");
             exit();
@@ -32,14 +34,14 @@ class AuthController {
         require_once 'views/public/register.php';
     }
 
-    
     public function login() {
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
             $this->showLogin();
             return;
         }
 
-        $identifier = trim($_POST['identifier'] ?? '');   
+        // Get login credentials
+        $identifier = trim($_POST['identifier'] ?? '');
         $password   = $_POST['password'] ?? '';
 
         if (empty($identifier) || empty($password)) {
@@ -48,44 +50,43 @@ class AuthController {
             return;
         }
 
-       
         $admin = new Admin($this->db);
         if ($admin->login($identifier, $password)) {
-            // Successful admin login
+            // Store admin session
             $_SESSION['admin_id']       = $admin->id;
             $_SESSION['admin_username'] = $admin->username;
             $_SESSION['admin_email']    = $admin->email;
-            // Clear any stale customer session
+
             unset($_SESSION['customer_id'], $_SESSION['customer_name']);
             header("Location: index.php?route=admin_dashboard");
             exit();
         }
 
-        
         $customer = new Customer($this->db);
         if ($customer->loginByIdentifier($identifier, $password)) {
-            // Successful customer login
+            // Store customer session
             $_SESSION['customer_id']   = $customer->id;
             $_SESSION['customer_name'] = $customer->name;
-            
+
             unset($_SESSION['admin_id'], $_SESSION['admin_username']);
 
-            
+            // Redirect after login
             $redirect = $_SESSION['redirect_after_login'] ?? 'index.php?route=home';
             unset($_SESSION['redirect_after_login']);
             header("Location: " . $redirect);
             exit();
         }
 
-        
+        // Login failed
         $error = "Invalid email or password. Please try again.";
         require_once 'views/public/login.php';
     }
 
-    
     public function register() {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $customer = new Customer($this->db);
+
+            // Assign registration data
             $customer->name     = $_POST['name'];
             $customer->email    = $_POST['email'];
             $customer->phone    = $_POST['phone'];
@@ -102,8 +103,8 @@ class AuthController {
         }
     }
 
-    
     public function logout() {
+        // End user session
         session_destroy();
         header("Location: index.php?route=login");
         exit();

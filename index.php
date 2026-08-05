@@ -1,12 +1,13 @@
 <?php
+// Start session
 session_start();
+
+// Get requested route
 $route = isset($_GET['route']) ? $_GET['route'] : 'home';
 
 switch ($route) {
 
-  
-    // PUBLIC ROUTES
- 
+    // Public routes
     case 'home':
         require_once 'controllers/PackageController.php';
         (new PackageController())->index();
@@ -33,22 +34,26 @@ switch ($route) {
     case 'contact':
         require_once 'controllers/ContactController.php';
         $controller = new ContactController();
-        $_SERVER['REQUEST_METHOD'] === 'POST' ? $controller->store() : $controller->showContactForm();
+        $_SERVER['REQUEST_METHOD'] === 'POST'
+            ? $controller->store()
+            : $controller->showContactForm();
         break;
 
-    
-    // AUTH ROUTES
-   
+    // Authentication routes
     case 'login':
         require_once 'controllers/AuthController.php';
         $controller = new AuthController();
-        $_SERVER['REQUEST_METHOD'] === 'POST' ? $controller->login() : $controller->showLogin();
+        $_SERVER['REQUEST_METHOD'] === 'POST'
+            ? $controller->login()
+            : $controller->showLogin();
         break;
 
     case 'register':
         require_once 'controllers/AuthController.php';
         $controller = new AuthController();
-        $_SERVER['REQUEST_METHOD'] === 'POST' ? $controller->register() : $controller->showRegister();
+        $_SERVER['REQUEST_METHOD'] === 'POST'
+            ? $controller->register()
+            : $controller->showRegister();
         break;
 
     case 'logout':
@@ -56,15 +61,12 @@ switch ($route) {
         (new AuthController())->logout();
         break;
 
-    // Admin login 
+    // Redirect admin login to shared login page
     case 'admin_login':
         header("Location: index.php?route=login");
         exit();
-        break;
 
-    
-    // BOOKING ROUTES
- 
+    // Booking routes
     case 'book':
         if (isset($_GET['id'])) {
             require_once 'controllers/BookingController.php';
@@ -102,9 +104,7 @@ switch ($route) {
         }
         break;
 
- 
-    // REVIEW ROUTES
-
+    // Review routes
     case 'store_review':
         require_once 'controllers/ReviewController.php';
         (new ReviewController())->store();
@@ -119,9 +119,7 @@ switch ($route) {
         }
         break;
 
-    
-    // WISHLIST ROUTES
-
+    // Wishlist routes
     case 'toggle_wishlist':
         require_once 'controllers/WishlistController.php';
         (new WishlistController())->toggle();
@@ -132,9 +130,7 @@ switch ($route) {
         (new WishlistController())->myWishlist();
         break;
 
-    
-    // CUSTOM PACKAGE BUILDER ROUTES
-
+    // Custom package routes
     case 'custom_package':
         require_once 'controllers/CustomPackageController.php';
         (new CustomPackageController())->showBuilder();
@@ -150,15 +146,7 @@ switch ($route) {
         (new CustomPackageController())->myCustomPackages();
         break;
 
-   
-    // ADMIN ROUTES - AUTH
-    
-    case 'admin_login':
-        require_once 'controllers/AdminController.php';
-        $controller = new AdminController();
-        $_SERVER['REQUEST_METHOD'] === 'POST' ? $controller->login() : $controller->showLogin();
-        break;
-
+    // Admin routes
     case 'admin_logout':
         require_once 'controllers/AuthController.php';
         (new AuthController())->logout();
@@ -169,9 +157,7 @@ switch ($route) {
         (new AdminController())->dashboard();
         break;
 
-    
-    // ADMIN - PACKAGE MANAGEMENT
-   
+    // Package management
     case 'admin_packages':
         require_once 'controllers/AdminController.php';
         (new AdminController())->managePackages();
@@ -201,9 +187,7 @@ switch ($route) {
         }
         break;
 
-   
-    // ADMIN - ITINERARY MANAGEMENT
-   
+    // Itinerary management
     case 'admin_add_itinerary':
         require_once 'controllers/AdminController.php';
         (new AdminController())->addItinerary();
@@ -216,9 +200,7 @@ switch ($route) {
         }
         break;
 
-   
-    // ADMIN - BOOKING MANAGEMENT
-   
+    // Booking management
     case 'admin_bookings':
         require_once 'controllers/AdminController.php';
         (new AdminController())->manageBookings();
@@ -236,9 +218,7 @@ switch ($route) {
         }
         break;
 
-    
-    // ADMIN - CUSTOMER MANAGEMENT
-    
+    // Customer management
     case 'admin_customers':
         require_once 'controllers/AdminController.php';
         (new AdminController())->manageCustomers();
@@ -251,17 +231,13 @@ switch ($route) {
         }
         break;
 
-    
-    // ADMIN - REVIEW MANAGEMENT
- 
+    // Review management
     case 'admin_reviews':
         require_once 'controllers/AdminController.php';
         (new AdminController())->manageReviews();
         break;
 
-   
-    // ADMIN - CUSTOM PACKAGES MANAGEMENT
-    
+    // Custom package management
     case 'admin_custom_packages':
         require_once 'controllers/AdminController.php';
         (new AdminController())->manageCustomPackages();
@@ -272,7 +248,7 @@ switch ($route) {
         (new AdminController())->updateCustomPackageStatus();
         break;
 
-   
+    // Default route
     default:
         require_once 'controllers/PackageController.php';
         (new PackageController())->index();
