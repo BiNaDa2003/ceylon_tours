@@ -3,7 +3,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebas
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-analytics.js";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDmoD62jL35kB8WTdNXl00j4ucWI1Y-LyM",
+  apiKey: "REDACTED_API_KEY", // TODO: replace with newly rotated & restricted key
   authDomain: "ceylon-tour.firebaseapp.com",
   projectId: "ceylon-tour",
   storageBucket: "ceylon-tour.firebasestorage.app",
