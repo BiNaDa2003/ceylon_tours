@@ -1,5 +1,8 @@
 <?php
-
+/**
+ * Admin Model
+ * Handles admin authentication and enhanced dashboard statistics.
+ */
 class Admin {
     private $conn;
     private $table_name = "admins";
@@ -9,26 +12,22 @@ class Admin {
     public $email;
     public $password;
 
-    // Initialize database connection
     public function __construct($db) {
         $this->conn = $db;
     }
 
-    // Verify admin login
+    /**
+     * Login admin by email and password (supports hashed and plain text passwords).
+     */
     public function login($email, $password) {
         $query = "SELECT id, username, email, password FROM " . $this->table_name . " WHERE email = ? LIMIT 0,1";
         $stmt = $this->conn->prepare($query);
-
-        // Sanitize email input
         $email = htmlspecialchars(strip_tags($email));
-
         $stmt->bindParam(1, $email);
         $stmt->execute();
 
         if ($stmt->rowCount() > 0) {
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
-
-            // Check password
             if (password_verify($password, $row['password']) || $password === $row['password']) {
                 $this->id       = $row['id'];
                 $this->username = $row['username'];
@@ -39,26 +38,28 @@ class Admin {
         return false;
     }
 
-    // Get dashboard statistics
+    /**
+     * Get enriched dashboard statistics for the admin dashboard.
+     */
     public function getDashboardStats() {
         $stats = [];
 
-        // Count total packages
+        // Total Packages
         $stmt = $this->conn->prepare("SELECT COUNT(*) as total FROM tour_packages");
         $stmt->execute();
         $stats['total_packages'] = $stmt->fetch(PDO::FETCH_ASSOC)['total'];
 
-        // Count total bookings
+        // Total Bookings
         $stmt = $this->conn->prepare("SELECT COUNT(*) as total FROM bookings");
         $stmt->execute();
         $stats['total_bookings'] = $stmt->fetch(PDO::FETCH_ASSOC)['total'];
 
-        // Count total customers
+        // Total Customers
         $stmt = $this->conn->prepare("SELECT COUNT(*) as total FROM customers");
         $stmt->execute();
         $stats['total_customers'] = $stmt->fetch(PDO::FETCH_ASSOC)['total'];
 
-        // Calculate total revenue
+        // Total Revenue (sum of confirmed bookings total_price)
         $stmt = $this->conn->prepare(
             "SELECT COALESCE(SUM(b.travelers * p.price), 0) as revenue
              FROM bookings b
@@ -68,12 +69,12 @@ class Admin {
         $stmt->execute();
         $stats['total_revenue'] = $stmt->fetch(PDO::FETCH_ASSOC)['revenue'];
 
-        // Count pending bookings
+        // Pending Bookings
         $stmt = $this->conn->prepare("SELECT COUNT(*) as total FROM bookings WHERE booking_status = 'Pending'");
         $stmt->execute();
         $stats['pending_bookings'] = $stmt->fetch(PDO::FETCH_ASSOC)['total'];
 
-        // Check pending custom requests
+        // Pending Custom Package Requests
         $custom_table_check = $this->conn->prepare("SHOW TABLES LIKE 'custom_packages'");
         $custom_table_check->execute();
         if ($custom_table_check->rowCount() > 0) {
@@ -84,7 +85,7 @@ class Admin {
             $stats['pending_custom'] = 0;
         }
 
-        // Get monthly booking data
+        // Monthly bookings for the last 6 months (for Chart.js)
         $stmt = $this->conn->prepare(
             "SELECT DATE_FORMAT(created_at, '%b %Y') as month,
                     DATE_FORMAT(created_at, '%Y-%m') as month_key,
@@ -99,7 +100,7 @@ class Admin {
         $stats['monthly_labels'] = array_column($monthly, 'month');
         $stats['monthly_counts'] = array_column($monthly, 'count');
 
-        // Get top 5 packages
+        // Top 5 packages by booking count
         $stmt = $this->conn->prepare(
             "SELECT p.title, COUNT(b.id) as bookings
              FROM tour_packages p
@@ -109,7 +110,7 @@ class Admin {
         $stmt->execute();
         $stats['top_packages'] = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        // Get recent bookings
+        // Recent 5 bookings
         $stmt = $this->conn->prepare(
             "SELECT b.id, b.booking_status, b.travel_date, b.travelers,
                     p.title as package_title, c.name as customer_name

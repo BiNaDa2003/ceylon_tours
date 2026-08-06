@@ -3,26 +3,18 @@
 <div class="container py-5" style="min-height: 80vh;">
     <div class="row justify-content-center align-items-center h-100">
         <div class="col-md-8 col-lg-6">
-            <!-- Registration card -->
             <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
-
-                <!-- Page header -->
                 <div class="card-header bg-dark text-white text-center py-4 border-0">
                     <h3 class="fw-bold brand-font mb-0">Create an Account</h3>
                     <p class="mb-0 small opacity-75">Join Ceylon Tours and start exploring</p>
                 </div>
-
                 <div class="card-body p-4 p-md-5">
                     
-                    <!-- Display error message -->
                     <?php if(isset($error)): ?>
                         <div class="alert alert-danger rounded-3 text-center small fw-semibold"><i class="fas fa-exclamation-circle me-1"></i><?php echo $error; ?></div>
                     <?php endif; ?>
 
-                    <!-- Registration form -->
                     <form action="index.php?route=register" method="POST" id="registerForm" class="needs-validation" novalidate>
-
-                        <!-- Full name -->
                         <div class="mb-3">
                             <label class="form-label fw-semibold text-muted small text-uppercase tracking-wide">Full Name <span class="text-danger">*</span></label>
                             <div class="input-group">
@@ -31,8 +23,7 @@
                             </div>
                             <div class="invalid-feedback">Please enter your full name.</div>
                         </div>
-
-                        <!-- Email -->
+                        
                         <div class="mb-3">
                             <label class="form-label fw-semibold text-muted small text-uppercase tracking-wide">Email Address <span class="text-danger">*</span></label>
                             <div class="input-group">
@@ -42,7 +33,6 @@
                             <div class="invalid-feedback">Please enter a valid email address.</div>
                         </div>
 
-                        <!-- Phone number -->
                         <div class="mb-3">
                             <label class="form-label fw-semibold text-muted small text-uppercase tracking-wide">Phone Number <span class="text-danger">*</span></label>
                             <div class="input-group">
@@ -51,8 +41,7 @@
                             </div>
                             <div class="invalid-feedback">Please enter a valid phone number.</div>
                         </div>
-
-                        <!-- Password -->
+                        
                         <div class="mb-4">
                             <label class="form-label fw-semibold text-muted small text-uppercase tracking-wide">Password <span class="text-danger">*</span></label>
                             <div class="input-group">
@@ -61,8 +50,7 @@
                             </div>
                             <div class="invalid-feedback">Password must be at least 6 characters long.</div>
                         </div>
-
-                        <!-- Terms agreement -->
+                        
                         <div class="form-check mb-4">
                             <input class="form-check-input" type="checkbox" id="termsCheck" required>
                             <label class="form-check-label text-muted small" for="termsCheck">
@@ -70,11 +58,9 @@
                             </label>
                             <div class="invalid-feedback">You must agree to the terms to register.</div>
                         </div>
-
-                        <!-- Submit button -->
+                        
                         <button type="submit" class="btn btn-primary w-100 py-3 rounded-pill fw-bold shadow-sm mb-4">Create Account</button>
-
-                        <!-- Login link -->
+                        
                         <div class="text-center text-muted small">
                             Already have an account? <a href="index.php?route=login" class="fw-bold text-primary text-decoration-none">Sign in here</a>
                         </div>

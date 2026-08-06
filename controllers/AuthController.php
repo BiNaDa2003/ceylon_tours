@@ -7,18 +7,16 @@ class AuthController {
     private $db;
 
     public function __construct() {
-        // Initialize database connection
         $database = new Database();
         $this->db = $database->getConnection();
-
-        // Start session if needed
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
         }
     }
 
+    // ─── Unified login page ──────────────────────────────────
     public function showLogin() {
-        // Redirect if already logged in
+        // If already logged in, redirect appropriately
         if (isset($_SESSION['admin_id'])) {
             header("Location: index.php?route=admin_dashboard");
             exit();
@@ -34,14 +32,14 @@ class AuthController {
         require_once 'views/public/register.php';
     }
 
+    // ─── Unified login handler ───────────────────────────────
     public function login() {
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
             $this->showLogin();
             return;
         }
 
-        // Get login credentials
-        $identifier = trim($_POST['identifier'] ?? '');
+        $identifier = trim($_POST['identifier'] ?? '');   // email (admin) or email/name (customer)
         $password   = $_POST['password'] ?? '';
 
         if (empty($identifier) || empty($password)) {
@@ -50,43 +48,44 @@ class AuthController {
             return;
         }
 
+        // ── 1. Check Admin table (by email) ──────────────────
         $admin = new Admin($this->db);
         if ($admin->login($identifier, $password)) {
-            // Store admin session
+            // Successful admin login
             $_SESSION['admin_id']       = $admin->id;
             $_SESSION['admin_username'] = $admin->username;
             $_SESSION['admin_email']    = $admin->email;
-
+            // Clear any stale customer session
             unset($_SESSION['customer_id'], $_SESSION['customer_name']);
             header("Location: index.php?route=admin_dashboard");
             exit();
         }
 
+        // ── 2. Check Customer table (by email OR name) ───────
         $customer = new Customer($this->db);
         if ($customer->loginByIdentifier($identifier, $password)) {
-            // Store customer session
+            // Successful customer login
             $_SESSION['customer_id']   = $customer->id;
             $_SESSION['customer_name'] = $customer->name;
-
+            // Clear any stale admin session
             unset($_SESSION['admin_id'], $_SESSION['admin_username']);
 
-            // Redirect after login
+            // Redirect to previous page if set, otherwise home
             $redirect = $_SESSION['redirect_after_login'] ?? 'index.php?route=home';
             unset($_SESSION['redirect_after_login']);
             header("Location: " . $redirect);
             exit();
         }
 
-        // Login failed
+        // ── 3. Both failed ───────────────────────────────────
         $error = "Invalid email or password. Please try again.";
         require_once 'views/public/login.php';
     }
 
+    // ─── Register new customer ───────────────────────────────
     public function register() {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $customer = new Customer($this->db);
-
-            // Assign registration data
             $customer->name     = $_POST['name'];
             $customer->email    = $_POST['email'];
             $customer->phone    = $_POST['phone'];
@@ -103,8 +102,8 @@ class AuthController {
         }
     }
 
+    // ─── Logout ──────────────────────────────────────────────
     public function logout() {
-        // End user session
         session_destroy();
         header("Location: index.php?route=login");
         exit();

@@ -1,10 +1,9 @@
 <?php
 class Database {
-    // Database credentials
     private $host = "localhost";
     private $db_name = "tour_booking";
     private $username = "root";
-    private $password = "root";
+    private $password = "";
     public $conn;
 
     // Get the database connection
@@ -12,16 +11,12 @@ class Database {
         $this->conn = null;
 
         try {
-            // Create PDO connection
             $this->conn = new PDO("mysql:host=" . $this->host . ";dbname=" . $this->db_name, $this->username, $this->password);
-            
-            // Enable exception handling
+            // Set the PDO error mode to exception
             $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            
-            // Set default fetch mode
+            // Ensure data is fetched as associative array by default
             $this->conn->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
         } catch(PDOException $exception) {
-            // Display connection error
             echo "Database Connection Error: " . $exception->getMessage();
         }
 
