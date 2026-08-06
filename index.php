@@ -153,12 +153,6 @@ switch ($route) {
     // ====================================================
     // ADMIN ROUTES — AUTH
     // ====================================================
-    case 'admin_login':
-        require_once 'controllers/AdminController.php';
-        $controller = new AdminController();
-        $_SERVER['REQUEST_METHOD'] === 'POST' ? $controller->login() : $controller->showLogin();
-        break;
-
     case 'admin_logout':
         require_once 'controllers/AuthController.php';
         (new AuthController())->logout();

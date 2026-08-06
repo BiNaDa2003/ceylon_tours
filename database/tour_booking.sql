@@ -47,8 +47,9 @@ CREATE TABLE `admins` (
   UNIQUE KEY `username` (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+-- Password is a bcrypt hash of: Admin@12345
 INSERT INTO `admins` (`id`, `username`, `email`, `password`) VALUES
-(1, 'admin', 'admin@ceylontours.com', 'Admin@12345');
+(1, 'admin', 'admin@ceylontours.com', '$2y$10$qvxSdhw0ShSeKgnNdf0AVuPdufVugF9UIikCEg8.g9u6wlC9Hia12');
 
 -- --------------------------------------------------------
 
@@ -67,8 +68,9 @@ CREATE TABLE `customers` (
   UNIQUE KEY `email` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+-- Password is a bcrypt hash of: Admin@12345
 INSERT INTO `customers` (`id`, `name`, `email`, `phone`, `password`) VALUES
-(1, 'Malshi Navodya', 'malshi@example.com', '077 5004567', 'Admin@12345');
+(1, 'Malshi Navodya', 'malshi@example.com', '077 5004567', '$2y$10$qvxSdhw0ShSeKgnNdf0AVuPdufVugF9UIikCEg8.g9u6wlC9Hia12');
 
 -- --------------------------------------------------------
 

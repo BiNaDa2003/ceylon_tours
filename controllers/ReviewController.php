@@ -62,7 +62,7 @@ class ReviewController {
      */
     public function delete($id) {
         if (!isset($_SESSION['admin_id'])) {
-            header("Location: index.php?route=admin_login");
+            header("Location: index.php?route=login");
             exit();
         }
         $this->review->id = (int)$id;

@@ -17,18 +17,18 @@ class Admin {
     }
 
     /**
-     * Login admin by email and password (supports hashed and plain text passwords).
+     * Login admin by email and password (password must be a PHP password_hash() hash).
      */
     public function login($email, $password) {
         $query = "SELECT id, username, email, password FROM " . $this->table_name . " WHERE email = ? LIMIT 0,1";
         $stmt = $this->conn->prepare($query);
-        $email = htmlspecialchars(strip_tags($email));
+        $email = htmlspecialchars(strip_tags(trim($email)));
         $stmt->bindParam(1, $email);
         $stmt->execute();
 
         if ($stmt->rowCount() > 0) {
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
-            if (password_verify($password, $row['password']) || $password === $row['password']) {
+            if (password_verify($password, $row['password'])) {
                 $this->id       = $row['id'];
                 $this->username = $row['username'];
                 $this->email    = $row['email'];
