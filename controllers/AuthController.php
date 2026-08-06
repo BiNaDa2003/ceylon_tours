@@ -39,10 +39,10 @@ class AuthController {
             return;
         }
 
-        $identifier = trim($_POST['identifier'] ?? '');   // email (admin) or email/name (customer)
-        $password   = $_POST['password'] ?? '';
+        $email    = trim($_POST['email'] ?? '');   // email (admin or customer)
+        $password = $_POST['password'] ?? '';
 
-        if (empty($identifier) || empty($password)) {
+        if (empty($email) || empty($password)) {
             $error = "Please enter your email and password.";
             require_once 'views/public/login.php';
             return;
@@ -50,7 +50,7 @@ class AuthController {
 
         // ── 1. Check Admin table (by email) ──────────────────
         $admin = new Admin($this->db);
-        if ($admin->login($identifier, $password)) {
+        if ($admin->login($email, $password)) {
             // Successful admin login
             $_SESSION['admin_id']       = $admin->id;
             $_SESSION['admin_username'] = $admin->username;
@@ -61,9 +61,9 @@ class AuthController {
             exit();
         }
 
-        // ── 2. Check Customer table (by email OR name) ───────
+        // ── 2. Check Customer table (by email) ───────────────
         $customer = new Customer($this->db);
-        if ($customer->loginByIdentifier($identifier, $password)) {
+        if ($customer->login($email, $password)) {
             // Successful customer login
             $_SESSION['customer_id']   = $customer->id;
             $_SESSION['customer_name'] = $customer->name;

@@ -37,6 +37,19 @@ A modern, responsive, and robust Tour Package Booking System developed as a full
 
 ---
 
+## 👨‍🎓 Team Members
+
+ 1. R.M.N.T. Yashintha   -  UWU/CST/23/064  
+ 2. K.M. Navodya         -  UWU/CST/23/029  
+ 3. S.D.O. Sandew        -  UWU/CST/23/005  
+ 4. J.M.D.K. Weerathunga -  UWU/CST/23/061  
+ 5. B.M.H.U.M. Bandara   -  UWU/CST/23/046  
+ 6. D.D.M.B. Basilu      -  UWU/CST/23/004  
+ 7. H.T.M. Senatathna    -  UWU/CST/23/038
+---  
+
+
+
 ## 📁 Directory Structure
 
 ```text

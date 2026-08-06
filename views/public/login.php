@@ -30,25 +30,22 @@
 
                     <form action="index.php?route=login" method="POST">
 
-                        <!-- Username or Email Field -->
+                        <!-- Email Field -->
                         <div class="mb-4">
                             <label class="form-label fw-semibold text-muted small text-uppercase tracking-wide">
-                                Username or Email
+                                Email
                             </label>
                             <div class="input-group">
                                 <span class="input-group-text bg-light border-end-0 text-muted">
-                                    <i class="fas fa-user"></i>
+                                    <i class="fas fa-envelope"></i>
                                 </span>
-                                <input type="text"
-                                       name="identifier"
+                                <input type="email"
+                                       name="email"
                                        class="form-control bg-light border-start-0 py-2"
                                        required
-                                       placeholder="admin  or  malshi@example.com"
-                                       autocomplete="username"
-                                       value="<?php echo htmlspecialchars($_POST['identifier'] ?? ''); ?>">
-                            </div>
-                            <div class="form-text text-muted" style="font-size:.78rem;">
-                                Admins: use your <strong>username</strong>. &nbsp;Customers: use your <strong>email</strong>.
+                                       placeholder="you@example.com"
+                                       autocomplete="email"
+                                       value="<?php echo htmlspecialchars($_POST['email'] ?? ''); ?>">
                             </div>
                         </div>
 

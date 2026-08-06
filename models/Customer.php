@@ -37,37 +37,26 @@ class Customer {
     }
 
     /**
-     * Unified login: accepts either email address or registered name.
-     * Supports both PHP password_hash() hashes and plain-text passwords.
+     * Login customer by email and password (password must be a PHP password_hash() hash).
      */
-    public function loginByIdentifier($identifier, $password) {
-        // Check by email first, then by name
-        $query = "SELECT id, name, password FROM " . $this->table_name . "
-                  WHERE email = :id1 OR name = :id2
+    public function login($email, $password) {
+        $query = "SELECT id, name, email, password FROM " . $this->table_name . "
+                  WHERE email = :email
                   LIMIT 1";
         $stmt = $this->conn->prepare($query);
-        $identifier = htmlspecialchars(strip_tags(trim($identifier)));
-        $stmt->bindParam(':id1', $identifier);
-        $stmt->bindParam(':id2', $identifier);
+        $email = htmlspecialchars(strip_tags(trim($email)));
+        $stmt->bindParam(':email', $email);
         $stmt->execute();
 
         if ($stmt->rowCount() > 0) {
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
-            // Support both hashed passwords and plain-text (for legacy/dev data)
-            if (password_verify($password, $row['password']) || $password === $row['password']) {
+            if (password_verify($password, $row['password'])) {
                 $this->id   = $row['id'];
                 $this->name = $row['name'];
                 return true;
             }
         }
         return false;
-    }
-
-    /**
-     * Legacy login by email only (kept for backward compatibility).
-     */
-    public function login($email, $password) {
-        return $this->loginByIdentifier($email, $password);
     }
 
     /**

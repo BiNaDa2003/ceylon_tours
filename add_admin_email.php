@@ -76,7 +76,7 @@ $admins = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 <div class="warn">
   ⚠️ <strong>Security Note:</strong> Please delete <code>add_admin_email.php</code> from your server after running this migration.
-  <br>You can now log in at <a href="index.php?route=admin_login">Admin Login</a> using the email shown above.
+  <br>You can now log in at <a href="index.php?route=login">Login</a> using the email shown above.
 </div>
 </body>
 </html>
