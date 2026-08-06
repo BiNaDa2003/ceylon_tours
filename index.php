@@ -4,9 +4,9 @@ $route = isset($_GET['route']) ? $_GET['route'] : 'home';
 
 switch ($route) {
 
-  
+    // ====================================================
     // PUBLIC ROUTES
- 
+    // ====================================================
     case 'home':
         require_once 'controllers/PackageController.php';
         (new PackageController())->index();
@@ -36,9 +36,9 @@ switch ($route) {
         $_SERVER['REQUEST_METHOD'] === 'POST' ? $controller->store() : $controller->showContactForm();
         break;
 
-    
+    // ====================================================
     // AUTH ROUTES
-   
+    // ====================================================
     case 'login':
         require_once 'controllers/AuthController.php';
         $controller = new AuthController();
@@ -56,15 +56,15 @@ switch ($route) {
         (new AuthController())->logout();
         break;
 
-    // Admin login 
+    // Admin login now redirects to unified login
     case 'admin_login':
         header("Location: index.php?route=login");
         exit();
         break;
 
-    
+    // ====================================================
     // BOOKING ROUTES
- 
+    // ====================================================
     case 'book':
         if (isset($_GET['id'])) {
             require_once 'controllers/BookingController.php';
@@ -102,9 +102,9 @@ switch ($route) {
         }
         break;
 
- 
+    // ====================================================
     // REVIEW ROUTES
-
+    // ====================================================
     case 'store_review':
         require_once 'controllers/ReviewController.php';
         (new ReviewController())->store();
@@ -119,9 +119,9 @@ switch ($route) {
         }
         break;
 
-    
+    // ====================================================
     // WISHLIST ROUTES
-
+    // ====================================================
     case 'toggle_wishlist':
         require_once 'controllers/WishlistController.php';
         (new WishlistController())->toggle();
@@ -132,9 +132,9 @@ switch ($route) {
         (new WishlistController())->myWishlist();
         break;
 
-    
+    // ====================================================
     // CUSTOM PACKAGE BUILDER ROUTES
-
+    // ====================================================
     case 'custom_package':
         require_once 'controllers/CustomPackageController.php';
         (new CustomPackageController())->showBuilder();
@@ -150,9 +150,9 @@ switch ($route) {
         (new CustomPackageController())->myCustomPackages();
         break;
 
-   
-    // ADMIN ROUTES - AUTH
-    
+    // ====================================================
+    // ADMIN ROUTES — AUTH
+    // ====================================================
     case 'admin_login':
         require_once 'controllers/AdminController.php';
         $controller = new AdminController();
@@ -169,9 +169,9 @@ switch ($route) {
         (new AdminController())->dashboard();
         break;
 
-    
-    // ADMIN - PACKAGE MANAGEMENT
-   
+    // ====================================================
+    // ADMIN — PACKAGE MANAGEMENT
+    // ====================================================
     case 'admin_packages':
         require_once 'controllers/AdminController.php';
         (new AdminController())->managePackages();
@@ -201,9 +201,9 @@ switch ($route) {
         }
         break;
 
-   
-    // ADMIN - ITINERARY MANAGEMENT
-   
+    // ====================================================
+    // ADMIN — ITINERARY MANAGEMENT
+    // ====================================================
     case 'admin_add_itinerary':
         require_once 'controllers/AdminController.php';
         (new AdminController())->addItinerary();
@@ -216,9 +216,9 @@ switch ($route) {
         }
         break;
 
-   
-    // ADMIN - BOOKING MANAGEMENT
-   
+    // ====================================================
+    // ADMIN — BOOKING MANAGEMENT
+    // ====================================================
     case 'admin_bookings':
         require_once 'controllers/AdminController.php';
         (new AdminController())->manageBookings();
@@ -236,9 +236,9 @@ switch ($route) {
         }
         break;
 
-    
-    // ADMIN - CUSTOMER MANAGEMENT
-    
+    // ====================================================
+    // ADMIN — CUSTOMER MANAGEMENT
+    // ====================================================
     case 'admin_customers':
         require_once 'controllers/AdminController.php';
         (new AdminController())->manageCustomers();
@@ -251,17 +251,17 @@ switch ($route) {
         }
         break;
 
-    
-    // ADMIN - REVIEW MANAGEMENT
- 
+    // ====================================================
+    // ADMIN — REVIEW MANAGEMENT
+    // ====================================================
     case 'admin_reviews':
         require_once 'controllers/AdminController.php';
         (new AdminController())->manageReviews();
         break;
 
-   
-    // ADMIN - CUSTOM PACKAGES MANAGEMENT
-    
+    // ====================================================
+    // ADMIN — CUSTOM PACKAGES MANAGEMENT
+    // ====================================================
     case 'admin_custom_packages':
         require_once 'controllers/AdminController.php';
         (new AdminController())->manageCustomPackages();
@@ -272,7 +272,9 @@ switch ($route) {
         (new AdminController())->updateCustomPackageStatus();
         break;
 
-   
+    // ====================================================
+    // DEFAULT
+    // ====================================================
     default:
         require_once 'controllers/PackageController.php';
         (new PackageController())->index();

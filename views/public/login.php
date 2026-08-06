@@ -5,7 +5,7 @@
         <div class="col-md-8 col-lg-5">
             <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
 
-                
+                <!-- Card Header -->
                 <div class="card-header bg-primary text-white text-center py-4 border-0">
                     <div class="mb-2">
                         <i class="fas fa-compass fa-2x text-white opacity-75"></i>
@@ -16,7 +16,7 @@
 
                 <div class="card-body p-4 p-md-5">
 
-                   
+                    <!-- Error / Success Flash Messages -->
                     <?php if(isset($error)): ?>
                         <div class="alert alert-danger rounded-3 small fw-semibold border-0 py-2">
                             <i class="fas fa-exclamation-circle me-2"></i><?php echo htmlspecialchars($error); ?>
@@ -30,10 +30,10 @@
 
                     <form action="index.php?route=login" method="POST">
 
-                        
+                        <!-- Username or Email Field -->
                         <div class="mb-4">
                             <label class="form-label fw-semibold text-muted small text-uppercase tracking-wide">
-                                Email
+                                Username or Email
                             </label>
                             <div class="input-group">
                                 <span class="input-group-text bg-light border-end-0 text-muted">
@@ -43,14 +43,16 @@
                                        name="identifier"
                                        class="form-control bg-light border-start-0 py-2"
                                        required
-                                       placeholder="malshi@example.com"
+                                       placeholder="admin  or  malshi@example.com"
                                        autocomplete="username"
                                        value="<?php echo htmlspecialchars($_POST['identifier'] ?? ''); ?>">
                             </div>
-                           
+                            <div class="form-text text-muted" style="font-size:.78rem;">
+                                Admins: use your <strong>username</strong>. &nbsp;Customers: use your <strong>email</strong>.
+                            </div>
                         </div>
 
-                        
+                        <!-- Password Field -->
                         <div class="mb-4">
                             <label class="form-label fw-semibold text-muted small text-uppercase tracking-wide">Password</label>
                             <div class="input-group">
@@ -73,12 +75,12 @@
                             </div>
                         </div>
 
-                        
+                        <!-- Submit Button -->
                         <button type="submit" class="btn btn-primary w-100 py-3 rounded-pill fw-bold shadow-sm mb-3">
                             <i class="fas fa-sign-in-alt me-2"></i>Sign In
                         </button>
 
-                        
+                        <!-- Divider -->
                         <div class="text-center text-muted small">
                             Don't have an account?
                             <a href="index.php?route=register" class="fw-bold text-primary text-decoration-none">Sign up now</a>
@@ -86,11 +88,11 @@
                     </form>
                 </div>
 
-                
+                <!-- Card Footer hint -->
                 <div class="card-footer bg-light text-center py-3 border-0">
                     <small class="text-muted">
                         <i class="fas fa-shield-alt text-primary me-1"></i>
-                        Secure login - your information is protected
+                        Secure login — your information is protected
                     </small>
                 </div>
             </div>
