@@ -137,12 +137,12 @@
                 </div>
             <?php endif; ?>
 
-            <form action="index.php?route=admin_login" method="POST">
+            <form action="index.php?route=login" method="POST">
                 <div class="mb-3">
                     <label class="form-label text-uppercase tracking-wide">Email Address</label>
                     <div class="input-group">
                         <span class="input-group-text bg-light"><i class="fas fa-envelope text-muted"></i></span>
-                        <input type="email" name="identifier" class="form-control bg-light" required placeholder="admin@example.com" autofocus>
+                        <input type="email" name="email" class="form-control bg-light" required placeholder="admin@example.com" autofocus>
                     </div>
                 </div>
                 <div class="mb-4">

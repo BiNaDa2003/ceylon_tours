@@ -27,36 +27,9 @@ class AdminController {
 
     private function checkAuth() {
         if (!isset($_SESSION['admin_id'])) {
-            header("Location: index.php?route=admin_login");
+            header("Location: index.php?route=login");
             exit();
         }
-    }
-
-    // --------------------------------------------------------
-    // AUTH
-    // --------------------------------------------------------
-    public function showLogin() {
-        require_once 'views/admin/login.php';
-    }
-
-    public function login() {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            if ($this->admin->login($_POST['username'], $_POST['password'])) {
-                $_SESSION['admin_id']       = $this->admin->id;
-                $_SESSION['admin_username'] = $this->admin->username;
-                header("Location: index.php?route=admin_dashboard");
-            } else {
-                $error = "Invalid username or password.";
-                require_once 'views/admin/login.php';
-            }
-            exit();
-        }
-    }
-
-    public function logout() {
-        unset($_SESSION['admin_id'], $_SESSION['admin_username']);
-        header("Location: index.php?route=admin_login");
-        exit();
     }
 
     // --------------------------------------------------------
